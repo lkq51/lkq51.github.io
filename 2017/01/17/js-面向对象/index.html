@@ -105,7 +105,7 @@ ECMAScript中有两种属性：数据属性和访问器属性
 [Configurable] : 表示能否通过delete删除属性从而重新定义属性或者是能够把属性修改为访问器属性，直接在对象上定义的属性，它们的这个特性值默认为true
 [E">
 <meta property="og:image" content="http://yoursite.com/2017/01/17/js-面向对象/js-prototype 各个对象之间的关系.jpg">
-<meta property="og:updated_time" content="2017-01-17T15:50:31.000Z">
+<meta property="og:updated_time" content="2017-01-17T16:07:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="js-面向对象">
 <meta name="twitter:description" content="因为ECMAScript是没有对象概念的
@@ -331,20 +331,7 @@ ECMAScript中有两种属性：数据属性和访问器属性
 <li>[Get] : 在读取属性时调用的函数。默认值为undefined</li>
 <li><p>[Set] : 在写入属性时调用的函数。默认值为undefined</p>
 <p>访问器属性不能直接定义，必须使用Object.defineProperty()来定义。<br>例如：</p>
-<p> var book = {</p>
-<pre><code>_year: 2004,
-edition: 1
-</code></pre><p> };<br> Object.defineProperty(book,”year”,{</p>
-<pre><code>get: function(){
-    return this._year;
-},
-set: function(newValue){
-    if (newValue &gt; 2004){
-        this._year = newValue;
-        this.edition += newValue - 2004;
-    }
-}
-</code></pre><p> });</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> book = &#123;</div><div class="line">	_year: <span class="type">2004</span>,</div><div class="line">	edition: <span class="type">1</span></div><div class="line">&#125;;</div><div class="line">Object.defineProperty(book,<span class="string">"year"</span>,&#123;</div><div class="line">	<span class="keyword">get</span>: <span class="type">function</span>()&#123;</div><div class="line">		<span class="keyword">return</span> <span class="built_in">this</span>._year;</div><div class="line">	&#125;,</div><div class="line">	<span class="keyword">set</span>: <span class="type">function</span>(<span class="keyword">new</span><span class="type">Value</span>)&#123;</div><div class="line">		<span class="keyword">if</span> (<span class="keyword">new</span><span class="type">Value</span> &gt; <span class="number">2004</span>)&#123;</div><div class="line">			<span class="built_in">this</span>._year = <span class="keyword">new</span><span class="type">Value</span>;</div><div class="line">			<span class="built_in">this</span>.edition += <span class="keyword">new</span><span class="type">Value</span> - <span class="number">2004</span>;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>ECMAScript5的Object.getOwnPropertyDescriptor()方法，可以取得给定属性的描述符。<br>其接受两个参数：属性所在对象和要读取其描述符的属性名称，返回值是一个对象。</p>
