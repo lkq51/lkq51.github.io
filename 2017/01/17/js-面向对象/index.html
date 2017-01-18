@@ -86,39 +86,33 @@
 
 
 
-<meta name="description" content="#JavaScript面向对象编程
-##理解对象
-因为ECMAScript是没有对象概念的
+<meta name="description" content="JavaScript面向对象编程理解对象因为ECMAScript是没有对象概念的
 “无序属性的集合”  “其属性可以包括方法、基本值、或者函数”
 ECMAScript中有两种属性：数据属性和访问器属性
 数据属性：包括一个值的位置   可以读取和写入有四个特性：
 
-[Configurable] : 表示能否通过delete删除属性从而重新定义属性或者是能够把属性修改为访问器属性，直接在对象">
+[Configurable] : 表示能否通过delete删除属性从而重新定义属性或者是能够把属性修改为访问器属性，直接在对象上定义的属">
 <meta property="og:type" content="article">
 <meta property="og:title" content="js-面向对象">
 <meta property="og:url" content="http://yoursite.com/2017/01/17/js-面向对象/index.html">
 <meta property="og:site_name" content="lkq'Page">
-<meta property="og:description" content="#JavaScript面向对象编程
-##理解对象
-因为ECMAScript是没有对象概念的
+<meta property="og:description" content="JavaScript面向对象编程理解对象因为ECMAScript是没有对象概念的
 “无序属性的集合”  “其属性可以包括方法、基本值、或者函数”
 ECMAScript中有两种属性：数据属性和访问器属性
 数据属性：包括一个值的位置   可以读取和写入有四个特性：
 
-[Configurable] : 表示能否通过delete删除属性从而重新定义属性或者是能够把属性修改为访问器属性，直接在对象">
+[Configurable] : 表示能否通过delete删除属性从而重新定义属性或者是能够把属性修改为访问器属性，直接在对象上定义的属">
 <meta property="og:image" content="http://yoursite.com/2017/01/17/js-面向对象/js-prototype 各个对象之间的关系.jpg">
 <meta property="og:image" content="http://yoursite.com/2017/01/17/js-面向对象/重写原型对象.png">
-<meta property="og:updated_time" content="2017-01-18T16:07:05.000Z">
+<meta property="og:updated_time" content="2017-01-18T16:19:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="js-面向对象">
-<meta name="twitter:description" content="#JavaScript面向对象编程
-##理解对象
-因为ECMAScript是没有对象概念的
+<meta name="twitter:description" content="JavaScript面向对象编程理解对象因为ECMAScript是没有对象概念的
 “无序属性的集合”  “其属性可以包括方法、基本值、或者函数”
 ECMAScript中有两种属性：数据属性和访问器属性
 数据属性：包括一个值的位置   可以读取和写入有四个特性：
 
-[Configurable] : 表示能否通过delete删除属性从而重新定义属性或者是能够把属性修改为访问器属性，直接在对象">
+[Configurable] : 表示能否通过delete删除属性从而重新定义属性或者是能够把属性修改为访问器属性，直接在对象上定义的属">
 <meta name="twitter:image" content="http://yoursite.com/2017/01/17/js-面向对象/js-prototype 各个对象之间的关系.jpg">
 
 
@@ -317,9 +311,7 @@ ECMAScript中有两种属性：数据属性和访问器属性
       
 
       
-        <p>#JavaScript面向对象编程</p>
-<p>##理解对象</p>
-<p>因为ECMAScript是没有对象概念的</p>
+        <h1 id="JavaScript面向对象编程"><a href="#JavaScript面向对象编程" class="headerlink" title="JavaScript面向对象编程"></a>JavaScript面向对象编程</h1><h2 id="理解对象"><a href="#理解对象" class="headerlink" title="理解对象"></a>理解对象</h2><p>因为ECMAScript是没有对象概念的</p>
 <p>“无序属性的集合”  “其属性可以包括方法、基本值、或者函数”</p>
 <p>ECMAScript中有两种属性：数据属性和访问器属性</p>
 <p>数据属性：包括一个值的位置   可以读取和写入<br>有四个特性：</p>
@@ -341,8 +333,7 @@ ECMAScript中有两种属性：数据属性和访问器属性
 </li>
 </ol>
 <p>ECMAScript5的Object.getOwnPropertyDescriptor()方法，可以取得给定属性的描述符。<br>其接受两个参数：属性所在对象和要读取其描述符的属性名称，返回值是一个对象。</p>
-<p>##创建对象</p>
-<h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><hr>
+<h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><hr>
 <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function createPerson(name, age, <span class="keyword">job)&#123;</span></div><div class="line">	var o = new Object()<span class="comment">;</span></div><div class="line">	o.name = name<span class="comment">;</span></div><div class="line">	o.age = age<span class="comment">;</span></div><div class="line">	o.<span class="keyword">job </span>= <span class="keyword">job;</span></div><div class="line">	o.sayName = funciton()&#123;</div><div class="line">		alert(this.name)<span class="comment">;</span></div><div class="line">	&#125;<span class="comment">;</span></div><div class="line">	return o<span class="comment">;</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>解决了创建多个相似对象的问题，但是不能解决对象识别的问题</p>
 <h3 id="构造函数模式"><a href="#构造函数模式" class="headerlink" title="构造函数模式"></a>构造函数模式</h3><hr>
@@ -550,7 +541,7 @@ ECMAScript中有两种属性：数据属性和访问器属性
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#工厂模式"><span class="nav-number">1.</span> <span class="nav-text">工厂模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数模式"><span class="nav-number">2.</span> <span class="nav-text">构造函数模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原型模式"><span class="nav-number">3.</span> <span class="nav-text">原型模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寄生构造函数模式"><span class="nav-number">4.</span> <span class="nav-text">寄生构造函数模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#稳妥构造函数模式"><span class="nav-number">5.</span> <span class="nav-text">稳妥构造函数模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#继承"><span class="nav-number"></span> <span class="nav-text">继承</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原型链"><span class="nav-number">1.</span> <span class="nav-text">原型链</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript面向对象编程"><span class="nav-number">1.</span> <span class="nav-text">JavaScript面向对象编程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#理解对象"><span class="nav-number">1.1.</span> <span class="nav-text">理解对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建对象"><span class="nav-number">1.2.</span> <span class="nav-text">创建对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#工厂模式"><span class="nav-number">1.2.1.</span> <span class="nav-text">工厂模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数模式"><span class="nav-number">1.2.2.</span> <span class="nav-text">构造函数模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原型模式"><span class="nav-number">1.2.3.</span> <span class="nav-text">原型模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寄生构造函数模式"><span class="nav-number">1.2.4.</span> <span class="nav-text">寄生构造函数模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#稳妥构造函数模式"><span class="nav-number">1.2.5.</span> <span class="nav-text">稳妥构造函数模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#继承"><span class="nav-number">1.3.</span> <span class="nav-text">继承</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原型链"><span class="nav-number">1.3.1.</span> <span class="nav-text">原型链</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
         </section>

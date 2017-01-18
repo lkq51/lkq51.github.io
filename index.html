@@ -299,9 +299,7 @@
       
         
           
-            <p>#JavaScript面向对象编程</p>
-<p>##理解对象</p>
-<p>因为ECMAScript是没有对象概念的</p>
+            <h1 id="JavaScript面向对象编程"><a href="#JavaScript面向对象编程" class="headerlink" title="JavaScript面向对象编程"></a>JavaScript面向对象编程</h1><h2 id="理解对象"><a href="#理解对象" class="headerlink" title="理解对象"></a>理解对象</h2><p>因为ECMAScript是没有对象概念的</p>
 <p>“无序属性的集合”  “其属性可以包括方法、基本值、或者函数”</p>
 <p>ECMAScript中有两种属性：数据属性和访问器属性</p>
 <p>数据属性：包括一个值的位置   可以读取和写入<br>有四个特性：</p>
@@ -323,8 +321,7 @@
 </li>
 </ol>
 <p>ECMAScript5的Object.getOwnPropertyDescriptor()方法，可以取得给定属性的描述符。<br>其接受两个参数：属性所在对象和要读取其描述符的属性名称，返回值是一个对象。</p>
-<p>##创建对象</p>
-<h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><hr>
+<h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><hr>
 <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function createPerson(name, age, <span class="keyword">job)&#123;</span></div><div class="line">	var o = new Object()<span class="comment">;</span></div><div class="line">	o.name = name<span class="comment">;</span></div><div class="line">	o.age = age<span class="comment">;</span></div><div class="line">	o.<span class="keyword">job </span>= <span class="keyword">job;</span></div><div class="line">	o.sayName = funciton()&#123;</div><div class="line">		alert(this.name)<span class="comment">;</span></div><div class="line">	&#125;<span class="comment">;</span></div><div class="line">	return o<span class="comment">;</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>解决了创建多个相似对象的问题，但是不能解决对象识别的问题</p>
 <h3 id="构造函数模式"><a href="#构造函数模式" class="headerlink" title="构造函数模式"></a>构造函数模式</h3><hr>
