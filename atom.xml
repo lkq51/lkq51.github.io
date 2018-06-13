@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-01-18T16:19:41.000Z</updated>
+  <updated>2018-06-13T12:46:53.286Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,57 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title></title>
+    <link href="http://yoursite.com/2018/06/13/%E5%85%B3%E4%BA%8Esqoop%E4%B8%80%E4%BA%9B%E8%AE%B0%E5%BD%95/"/>
+    <id>http://yoursite.com/2018/06/13/关于sqoop一些记录/</id>
+    <published>2018-06-13T12:46:53.286Z</published>
+    <updated>2018-06-13T12:46:53.286Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="利用sqoop从oracle导入现有表格和数据到hive时出现数据量倍增"><a href="#利用sqoop从oracle导入现有表格和数据到hive时出现数据量倍增" class="headerlink" title="利用sqoop从oracle导入现有表格和数据到hive时出现数据量倍增"></a>利用sqoop从oracle导入现有表格和数据到hive时出现数据量倍增</h2><p>今在导入两张表A与B时出现了一个问题。</p>
+<p>首先是执行命令后提示说jdbc驱动无法加载，这个简单在下载了与oracle数据库对应版本的jdbc驱动后放在了sqoop安装目录的lib文件夹下，即正常。</p>
+<p>然后是我将命令错写，本来想先复制表结构到hive中 </p>
+<figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">sqoop </span><span class="built_in">create-hive-table</span> <span class="built_in">--connect</span> <span class="string">jdbc:oracle:</span><span class="string">thin:</span>@<span class="string">xxx.</span><span class="string">xx.</span><span class="string">xxx.</span><span class="string">xx:xxxx:</span><span class="string">BaseName </span> <span class="built_in">--table</span> <span class="string">OracleTableName </span><span class="built_in">--username</span>  <span class="string">oracleUserName </span><span class="built_in">--password</span> <span class="string">OraclePassword </span><span class="built_in">--hive-table</span> <span class="string">HiveTableName</span></div></pre></td></tr></table></figure>
+<p>然后在执行复制表中数据到hive中</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqoop <span class="keyword">import</span> --connect <span class="string">jdbc:</span><span class="string">oracle:</span><span class="string">thin:</span><span class="meta">@xxx</span>.xxx.xxx.<span class="string">xx:</span><span class="string">xxxx:</span>BaseName --username OracleUserName --password OraclePassWord --table OracleTableName --hive-<span class="keyword">import</span> -hive-table HiveTableName -m <span class="number">8</span></div></pre></td></tr></table></figure>
+<p>8指的是利用8个MapReduce</p>
+<p>结果将第一个指令错写成</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqoop <span class="keyword">import</span> --hive-<span class="keyword">import</span> --connect <span class="string">jdbc:</span><span class="string">oracle:</span><span class="string">thin:</span><span class="meta">@xxx</span>.xxx.xxx.<span class="string">xx:</span><span class="string">xxxx:</span>BaseName --table OracleTableName --username OracleUserName --password OraclePassWord --hive-table HiveTableName</div></pre></td></tr></table></figure>
+<p>后又执行了复制表中数据的指令 导致数据翻倍</p>
+<p>纠正后恢复正常<br>但是发现A表中509条数据没问题 ，但是B表中由原先的40多万条 翻了9倍。<br>后发现是因为B表的数据中存在的换行符。</p>
+<p>而sqoop默认以换行符<figure class="highlight plain"><figcaption><span>作为列与列之间的分隔。</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">查询网上资料后发现可以用</div></pre></td></tr></table></figure></p>
+<p>–fields-terminated-by ‘\0001’<br>–lines-terminated-by ‘\n’<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">来重新设置行与列之间的分隔符</div><div class="line"></div><div class="line">据网上的资料显示这里必须使用```fields-terminated-by```而不是```--input-fields-terminated-by</div></pre></td></tr></table></figure></p>
+<p>–input前缀的使用用于读文件的分割符号，便于解析文件，所以用于从HDFS导出数据的时候</p>
+<p>还有参数必须要用单引号括起来，在这里官方文件给的例子是错的。</p>
+<p>还必须小心hive的bug，如果用<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">但如果直接写成```\u0001``` hive的某些版本会变成```u0001</div></pre></td></tr></table></figure></p>
+<p>如果说导入的数据中某个字段含有<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">就像我遇到的这种情况，此时可以使用</div></pre></td></tr></table></figure></p>
+<p>-hive-drop-import-delims<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">这个指令可以从string字段中drops \n \r \<span class="number">01</span> 这些符号。</div><div class="line"></div><div class="line">在这里顺便记录几个可能会遇到的错误以及解决的办法，没准以后有用</div><div class="line"></div><div class="line"></div><div class="line">### <span class="number">1.</span>用sqoop <span class="keyword">import</span>从mysql数据库导入到HDFS中的时候一直报错，最后才发现是一个时间日期类型的非法值导致。</div><div class="line"></div><div class="line">hive只支持timestamp类型，而mysql中的日期类型是datetime， 当datetime的值为<span class="number">0000</span><span class="number">-00</span><span class="number">-00</span> <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span>的时候，sqoop <span class="keyword">import</span>成功，但是在hive中执行select语句查询该字段的时候报错。</div><div class="line"></div><div class="line">#### 解决方法是在创建hive表时用string字段类型</div><div class="line"></div><div class="line"></div><div class="line">### <span class="number">2.</span>hive中有些关键字限制，因此有些字段名称在mysql中可用，但是到了hive就不行。</div><div class="line"></div><div class="line">比如order必须改成order1, 下面列出了我们发现的一些不能在hive中使用的字段名称</div></pre></td></tr></table></figure></p>
+<p>order =&gt; order1</p>
+<p>sort =&gt; sort1</p>
+<p>reduce =&gt; reduce1</p>
+<p>cast =&gt; cast1</p>
+<p>directory =&gt; directory1</p>
+<p>```</p>
+<p>好了言归正传 在使用了<code>-hive-drop-import-delims</code>后，B表导入后的数据总量确实正确了但是我查询了一条记录后发现输出为15条，同样的sql语句在orcale中执行输出仅为一条，这又是一个奇怪的问题,仍在寻在原因以及解决方法。</p>
+<p>在oracel查询其余14条记录后发现，当执行查询某字段为100000000122752873时，实际输出的是该字段<br>100000000122752873 – 100000000122752887的相邻15条记录由此判断 有可能是该字段的数据格式有问题导致精度出错。</p>
+<p>询问了一些人后得知貌似只能在导入数据前就按自己想要的格式先建好表才行。</p>
+<p>因为这个问题不影响到后续的功能，此处还未排查修复。有时间再来试试。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;利用sqoop从oracle导入现有表格和数据到hive时出现数据量倍增&quot;&gt;&lt;a href=&quot;#利用sqoop从oracle导入现有表格和数据到hive时出现数据量倍增&quot; class=&quot;headerlink&quot; title=&quot;利用sqoop从oracle导入现有表格
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>js-面向对象</title>
     <link href="http://yoursite.com/2017/01/17/js-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"/>
     <id>http://yoursite.com/2017/01/17/js-面向对象/</id>
     <published>2017-01-17T14:07:28.000Z</published>
-    <updated>2017-01-18T16:19:41.000Z</updated>
+    <updated>2017-02-03T07:44:32.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="JavaScript面向对象编程"><a href="#JavaScript面向对象编程" class="headerlink" title="JavaScript面向对象编程"></a>JavaScript面向对象编程</h1><h2 id="理解对象"><a href="#理解对象" class="headerlink" title="理解对象"></a>理解对象</h2><p>因为ECMAScript是没有对象概念的</p>
 <p>“无序属性的集合”  “其属性可以包括方法、基本值、或者函数”</p>
@@ -102,6 +148,8 @@
 </blockquote>
 <p>如果我们让原型对象等于另一个类型的实例，此时的原型对象将包含一个指向另一个原型的指针，相应地，另一个原型中也包含一个指向另一个构造函数的指针。假如另一个原型又是另一个类型的实例，那么上述关系依然成立。如此层层递进，就构成了实例与原型的链条。</p>
 <figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">SuperType</span><span class="params">()</span></span>&#123;</div><div class="line">	<span class="keyword">this</span>.property = <span class="literal">true</span>;</div><div class="line">&#125;</div><div class="line">SuperType.prototype.getSuperValue = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.property;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubType</span><span class="params">()</span></span>&#123;</div><div class="line">	<span class="keyword">this</span>.subproperty = <span class="literal">false</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//继承了SuperType</span></div><div class="line">SubType.prototype = <span class="keyword">new</span> SuperType();</div><div class="line"></div><div class="line">SubType.prototype.getSubValue = funciton () &#123;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.subproperty;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> instance = <span class="keyword">new</span> SubType();</div><div class="line">alert(instance.getSuperValue()); <span class="comment">//true</span></div></pre></td></tr></table></figure>
+<p><img src="/2017/01/17/js-面向对象/实例构造函数与原型之间的关系.png" alt="原型与构造函数之间的关系"></p>
+<p>原型与构造函数和实例之间的关系如图所示</p>
 ]]></content>
     
     <summary type="html">
@@ -140,7 +188,7 @@
     <link href="http://yoursite.com/2017/01/11/why-i-can-t-see-my-new-post/"/>
     <id>http://yoursite.com/2017/01/11/why-i-can-t-see-my-new-post/</id>
     <published>2017-01-11T15:19:00.000Z</published>
-    <updated>2017-01-12T04:42:40.000Z</updated>
+    <updated>2017-07-18T13:42:42.000Z</updated>
     
     <content type="html"><![CDATA[<p>其实搭建好Github+hexo的博客环境已经有些日子了。因为拖延症吧，好久都没有在这个平台上写过什么东西。倒是在博客园上写过几篇，是时候把他们转过来了。</p>
 <p>对Markdown的语法还不是很熟悉。借着这个机会来熟悉一下。</p>

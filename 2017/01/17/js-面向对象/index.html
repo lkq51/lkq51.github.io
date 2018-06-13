@@ -104,7 +104,8 @@ ECMAScript中有两种属性：数据属性和访问器属性
 [Configurable] : 表示能否通过delete删除属性从而重新定义属性或者是能够把属性修改为访问器属性，直接在对象上定义的属">
 <meta property="og:image" content="http://yoursite.com/2017/01/17/js-面向对象/js-prototype 各个对象之间的关系.jpg">
 <meta property="og:image" content="http://yoursite.com/2017/01/17/js-面向对象/重写原型对象.png">
-<meta property="og:updated_time" content="2017-01-18T16:19:41.000Z">
+<meta property="og:image" content="http://yoursite.com/2017/01/17/js-面向对象/实例构造函数与原型之间的关系.png">
+<meta property="og:updated_time" content="2017-02-03T07:44:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="js-面向对象">
 <meta name="twitter:description" content="JavaScript面向对象编程理解对象因为ECMAScript是没有对象概念的
@@ -391,6 +392,8 @@ ECMAScript中有两种属性：数据属性和访问器属性
 </blockquote>
 <p>如果我们让原型对象等于另一个类型的实例，此时的原型对象将包含一个指向另一个原型的指针，相应地，另一个原型中也包含一个指向另一个构造函数的指针。假如另一个原型又是另一个类型的实例，那么上述关系依然成立。如此层层递进，就构成了实例与原型的链条。</p>
 <figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">SuperType</span><span class="params">()</span></span>&#123;</div><div class="line">	<span class="keyword">this</span>.property = <span class="literal">true</span>;</div><div class="line">&#125;</div><div class="line">SuperType.prototype.getSuperValue = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.property;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubType</span><span class="params">()</span></span>&#123;</div><div class="line">	<span class="keyword">this</span>.subproperty = <span class="literal">false</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//继承了SuperType</span></div><div class="line">SubType.prototype = <span class="keyword">new</span> SuperType();</div><div class="line"></div><div class="line">SubType.prototype.getSubValue = funciton () &#123;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.subproperty;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> instance = <span class="keyword">new</span> SubType();</div><div class="line">alert(instance.getSuperValue()); <span class="comment">//true</span></div></pre></td></tr></table></figure>
+<p><img src="/2017/01/17/js-面向对象/实例构造函数与原型之间的关系.png" alt="原型与构造函数之间的关系"></p>
+<p>原型与构造函数和实例之间的关系如图所示</p>
 
       
     </div>
@@ -428,6 +431,10 @@ ECMAScript中有两种属性：数据属性和访问器属性
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/13/关于sqoop一些记录/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -495,7 +502,7 @@ ECMAScript中有两种属性：数据属性和访问器属性
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -560,7 +567,7 @@ ECMAScript中有两种属性：数据属性和访问器属性
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

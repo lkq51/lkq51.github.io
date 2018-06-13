@@ -4,8 +4,40 @@
 
     
   <url>
+    <loc>http://yoursite.com/2018/06/13/%E5%85%B3%E4%BA%8Esqoop%E4%B8%80%E4%BA%9B%E8%AE%B0%E5%BD%95/</loc>
+    <lastmod>2018-06-13T12:46:53.286Z</lastmod>
+    <data>
+        <display>
+        <title></title>
+        <pubTime>2018-06-13T12:46:53.286Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yoursite.com/2017/01/11/why-i-can-t-see-my-new-post/</loc>
+    <lastmod>2017-07-18T13:42:42.000Z</lastmod>
+    <data>
+        <display>
+        <title>第一篇blog</title>
+        <pubTime>2017-01-11T15:19:00.000Z</pubTime>
+        
+        <tag>hexo githubPage Markdown</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2017/01/17/js-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/</loc>
-    <lastmod>2017-01-18T16:19:41.000Z</lastmod>
+    <lastmod>2017-02-03T07:44:32.000Z</lastmod>
     <data>
         <display>
         <title>js-面向对象</title>
@@ -31,23 +63,6 @@
         <title>关于Spring aop的一点理解</title>
         <pubTime>2017-01-14T04:17:36.000Z</pubTime>
         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/01/11/why-i-can-t-see-my-new-post/</loc>
-    <lastmod>2017-01-12T04:42:40.000Z</lastmod>
-    <data>
-        <display>
-        <title>第一篇blog</title>
-        <pubTime>2017-01-11T15:19:00.000Z</pubTime>
-        
-        <tag>hexo githubPage Markdown</tag>
-         
          
            
         </display>

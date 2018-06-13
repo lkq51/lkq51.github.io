@@ -1,0 +1,606 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="lkq'Page" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="利用sqoop从oracle导入现有表格和数据到hive时出现数据量倍增今在导入两张表A与B时出现了一个问题。
+首先是执行命令后提示说jdbc驱动无法加载，这个简单在下载了与oracle数据库对应版本的jdbc驱动后放在了sqoop安装目录的lib文件夹下，即正常。
+然后是我将命令错写，本来想先复制表结构到hive中 
+1sqoop create-hive-table --connect jdbc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lkq'Page">
+<meta property="og:url" content="http://yoursite.com/2018/06/13/关于sqoop一些记录/index.html">
+<meta property="og:site_name" content="lkq'Page">
+<meta property="og:description" content="利用sqoop从oracle导入现有表格和数据到hive时出现数据量倍增今在导入两张表A与B时出现了一个问题。
+首先是执行命令后提示说jdbc驱动无法加载，这个简单在下载了与oracle数据库对应版本的jdbc驱动后放在了sqoop安装目录的lib文件夹下，即正常。
+然后是我将命令错写，本来想先复制表结构到hive中 
+1sqoop create-hive-table --connect jdbc">
+<meta property="og:updated_time" content="2018-06-13T12:46:53.286Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="lkq'Page">
+<meta name="twitter:description" content="利用sqoop从oracle导入现有表格和数据到hive时出现数据量倍增今在导入两张表A与B时出现了一个问题。
+首先是执行命令后提示说jdbc驱动无法加载，这个简单在下载了与oracle数据库对应版本的jdbc驱动后放在了sqoop安装目录的lib文件夹下，即正常。
+然后是我将命令错写，本来想先复制表结构到hive中 
+1sqoop create-hive-table --connect jdbc">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'lkq'
+    }
+  };
+</script>
+
+  <title>  | lkq'Page </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">lkq'Page</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">blog</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-06-13T20:46:53+08:00" content="2018-06-13">
+              2018-06-13
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="利用sqoop从oracle导入现有表格和数据到hive时出现数据量倍增"><a href="#利用sqoop从oracle导入现有表格和数据到hive时出现数据量倍增" class="headerlink" title="利用sqoop从oracle导入现有表格和数据到hive时出现数据量倍增"></a>利用sqoop从oracle导入现有表格和数据到hive时出现数据量倍增</h2><p>今在导入两张表A与B时出现了一个问题。</p>
+<p>首先是执行命令后提示说jdbc驱动无法加载，这个简单在下载了与oracle数据库对应版本的jdbc驱动后放在了sqoop安装目录的lib文件夹下，即正常。</p>
+<p>然后是我将命令错写，本来想先复制表结构到hive中 </p>
+<figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">sqoop </span><span class="built_in">create-hive-table</span> <span class="built_in">--connect</span> <span class="string">jdbc:oracle:</span><span class="string">thin:</span>@<span class="string">xxx.</span><span class="string">xx.</span><span class="string">xxx.</span><span class="string">xx:xxxx:</span><span class="string">BaseName </span> <span class="built_in">--table</span> <span class="string">OracleTableName </span><span class="built_in">--username</span>  <span class="string">oracleUserName </span><span class="built_in">--password</span> <span class="string">OraclePassword </span><span class="built_in">--hive-table</span> <span class="string">HiveTableName</span></div></pre></td></tr></table></figure>
+<p>然后在执行复制表中数据到hive中</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqoop <span class="keyword">import</span> --connect <span class="string">jdbc:</span><span class="string">oracle:</span><span class="string">thin:</span><span class="meta">@xxx</span>.xxx.xxx.<span class="string">xx:</span><span class="string">xxxx:</span>BaseName --username OracleUserName --password OraclePassWord --table OracleTableName --hive-<span class="keyword">import</span> -hive-table HiveTableName -m <span class="number">8</span></div></pre></td></tr></table></figure>
+<p>8指的是利用8个MapReduce</p>
+<p>结果将第一个指令错写成</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqoop <span class="keyword">import</span> --hive-<span class="keyword">import</span> --connect <span class="string">jdbc:</span><span class="string">oracle:</span><span class="string">thin:</span><span class="meta">@xxx</span>.xxx.xxx.<span class="string">xx:</span><span class="string">xxxx:</span>BaseName --table OracleTableName --username OracleUserName --password OraclePassWord --hive-table HiveTableName</div></pre></td></tr></table></figure>
+<p>后又执行了复制表中数据的指令 导致数据翻倍</p>
+<p>纠正后恢复正常<br>但是发现A表中509条数据没问题 ，但是B表中由原先的40多万条 翻了9倍。<br>后发现是因为B表的数据中存在的换行符。</p>
+<p>而sqoop默认以换行符<figure class="highlight plain"><figcaption><span>作为列与列之间的分隔。</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">查询网上资料后发现可以用</div></pre></td></tr></table></figure></p>
+<p>–fields-terminated-by ‘\0001’<br>–lines-terminated-by ‘\n’<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">来重新设置行与列之间的分隔符</div><div class="line"></div><div class="line">据网上的资料显示这里必须使用```fields-terminated-by```而不是```--input-fields-terminated-by</div></pre></td></tr></table></figure></p>
+<p>–input前缀的使用用于读文件的分割符号，便于解析文件，所以用于从HDFS导出数据的时候</p>
+<p>还有参数必须要用单引号括起来，在这里官方文件给的例子是错的。</p>
+<p>还必须小心hive的bug，如果用<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">但如果直接写成```\u0001``` hive的某些版本会变成```u0001</div></pre></td></tr></table></figure></p>
+<p>如果说导入的数据中某个字段含有<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">就像我遇到的这种情况，此时可以使用</div></pre></td></tr></table></figure></p>
+<p>-hive-drop-import-delims<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">这个指令可以从string字段中drops \n \r \<span class="number">01</span> 这些符号。</div><div class="line"></div><div class="line">在这里顺便记录几个可能会遇到的错误以及解决的办法，没准以后有用</div><div class="line"></div><div class="line"></div><div class="line">### <span class="number">1.</span>用sqoop <span class="keyword">import</span>从mysql数据库导入到HDFS中的时候一直报错，最后才发现是一个时间日期类型的非法值导致。</div><div class="line"></div><div class="line">hive只支持timestamp类型，而mysql中的日期类型是datetime， 当datetime的值为<span class="number">0000</span><span class="number">-00</span><span class="number">-00</span> <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span>的时候，sqoop <span class="keyword">import</span>成功，但是在hive中执行select语句查询该字段的时候报错。</div><div class="line"></div><div class="line">#### 解决方法是在创建hive表时用string字段类型</div><div class="line"></div><div class="line"></div><div class="line">### <span class="number">2.</span>hive中有些关键字限制，因此有些字段名称在mysql中可用，但是到了hive就不行。</div><div class="line"></div><div class="line">比如order必须改成order1, 下面列出了我们发现的一些不能在hive中使用的字段名称</div></pre></td></tr></table></figure></p>
+<p>order =&gt; order1</p>
+<p>sort =&gt; sort1</p>
+<p>reduce =&gt; reduce1</p>
+<p>cast =&gt; cast1</p>
+<p>directory =&gt; directory1</p>
+<p>```</p>
+<p>好了言归正传 在使用了<code>-hive-drop-import-delims</code>后，B表导入后的数据总量确实正确了但是我查询了一条记录后发现输出为15条，同样的sql语句在orcale中执行输出仅为一条，这又是一个奇怪的问题,仍在寻在原因以及解决方法。</p>
+<p>在oracel查询其余14条记录后发现，当执行查询某字段为100000000122752873时，实际输出的是该字段<br>100000000122752873 – 100000000122752887的相邻15条记录由此判断 有可能是该字段的数据格式有问题导致精度出错。</p>
+<p>询问了一些人后得知貌似只能在导入数据前就按自己想要的格式先建好表才行。</p>
+<p>因为这个问题不影响到后续的功能，此处还未排查修复。有时间再来试试。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/17/js-面向对象/" rel="next" title="js-面向对象">
+                <i class="fa fa-chevron-left"></i> js-面向对象
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/img/head.jpg"
+               alt="lkq" />
+          <p class="site-author-name" itemprop="name">lkq</p>
+          <p class="site-description motion-element" itemprop="description">There is but one rule...</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#利用sqoop从oracle导入现有表格和数据到hive时出现数据量倍增"><span class="nav-number">1.</span> <span class="nav-text">利用sqoop从oracle导入现有表格和数据到hive时出现数据量倍增</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lkq</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
